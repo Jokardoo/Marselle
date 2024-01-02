@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Standart position</title>
+    <style>
+        body {
+            background-image: url("https://phonoteka.org/uploads/posts/2022-02/1644979077_23-phonoteka-org-p-izobrazhenie-dlya-fona-saita-23.png");
+
+            background-size: cover;
+            background-position: initial;
+        }
+
+        .header {
+            border-radius: 6px;
+            border-width: 4px;
+            border-color: #50392f;
+            background-color: #000;
+            color: #f4a55e;
+            padding: 10px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 24px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .button {
+            background-color: #f4a55e;
+            color: #381604;
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .body_window {
+            border-radius: 10px;
+            border-width: 4px;
+            border-color: #50392f;
+            background-color: #000;
+            color: #f4a55e;
+            padding: 10px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 24px;
+        }
+
+        .button:hover {
+            background-color: #555;
+        }
+        .info_block {
+            background-color: black;
+            border-radius: 8px;
+            background-size: 400px;
+            text-align: left;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #f4a55e; /* Красный с помощью HEX */
+            font-size: 24px;
+            padding-left: 20px;
+            padding-bottom: 20px;
+            padding-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="buttons">
+        <button class="button" onclick="location.href='/workers'">Сотрудники</button>
+        <button class="button" onclick="location.href='/furniture'">Стандартные позиции</button>
+        <button class="button" onclick="location.href='/results-of-the-day'">Итоги дня</button>
+        <button class="button" onclick="location.href='/people-month-salary'">Расчет зарплаты</button>
+        <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
+    </div>
+</div>
+
+<div style="padding-left: 20px">
+    <h1 th:text="${'Название позиции: ' + position.getName()}"></h1>
+    <h1 th:text="${'Стоимость: ' + position.getPrice()}"></h1>
+    <br>
+    <div th:each="chipboard : ${position.getChipboardList()}">
+        <h4 th:text="${chipboard.getLength() + ' x ' + chipboard.getWidth() + ', ' + chipboard.getName()}"></h4>
+    </div>
+    <br>
+
+    <h1>Длина кромки</h1>
+    <div>
+        <h3 th:text="'Толстой кромки: ' + ${position.getLengthOfFatEdge()} + 'мм'"></h3>
+        <h3 th:text="'Тонкой кромки: ' + ${position.getLengthOfThinEdge()} + 'мм'"></h3>
+        <br>
+    </div>
+
+    <h1>Фурнитура</h1>
+    <div th:each="a : ${accessory}">
+        <h4 th:text="${a.toString()}"></h4>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

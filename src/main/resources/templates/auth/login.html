@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Авторизация</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #F0F0F0;
+      font-family: Courier, monospace;
+      font-size: 16px;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .input {
+      background-color: #000;
+      border: 1px solid #F0F0F0;
+      color: #F0F0F0;
+      padding: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: Courier, monospace;
+    }
+
+    .button {
+      background-color: #F0F0F0;
+      border: none;
+      color: #000;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+<h1>Авторизация пользователя</h1>
+<div class="container">
+  <form method="POST" action="/process_login">
+    <input type="text" class="input" id="username" name="username" placeholder="Логин">
+    <input type="password" class="input" id="password" name="password" placeholder="Пароль">
+    <input type="submit" class="button" value="Войти">
+  </form>
+  <p>Еще нет аккаунта? <a href="/registration">Зарегистрируйтесь</a></p>
+</div>
+</body>
+</html>

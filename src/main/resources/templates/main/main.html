@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            background-image: url("https://phonoteka.org/uploads/posts/2022-02/1644979077_23-phonoteka-org-p-izobrazhenie-dlya-fona-saita-23.png");
+
+            background-size: cover;
+            background-position: initial;
+        }
+
+        .header {
+            border-radius: 6px;
+            border-width: 4px;
+            border-color: #50392f;
+            background-color: #000;
+            color: #f4a55e;
+            padding: 10px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 24px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .button {
+            background-color: #f4a55e;
+            color: #381604;
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #555;
+        }
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <a th:text="${personDto.getUsername()}"></a>
+    <div class="buttons">
+        <button class="button" onclick="location.href='/workers'">Сотрудники</button>
+        <button class="button" onclick="location.href='/furniture'">Стандартные позиции</button>
+        <button class="button" onclick="location.href='/results-of-the-day'">Итоги дня</button>
+        <button class="button" onclick="location.href='/people-month-salary'">Расчет зарплаты</button>
+        <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
+    </div>
+</div>
+
+</body>
+</html>

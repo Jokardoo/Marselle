@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Workers</title>
+    <style>
+        body {
+            background-image: url("https://phonoteka.org/uploads/posts/2022-02/1644979077_23-phonoteka-org-p-izobrazhenie-dlya-fona-saita-23.png");
+
+            background-size: cover;
+            background-position: initial;
+        }
+
+        .header {
+            border-radius: 6px;
+            border-width: 4px;
+            border-color: #50392f;
+            background-color: #000;
+            color: #f4a55e;
+            padding: 10px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 24px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .button {
+            background-color: #f4a55e;
+            color: #381604;
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .body_window {
+            border-radius: 10px;
+            border-width: 4px;
+            border-color: #50392f;
+            background-color: #000;
+            color: #f4a55e;
+            padding: 10px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 24px;
+        }
+        .text {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: black; /* Красный с помощью HEX */
+            font-size: 24px;
+            font-family: Courier, monospace;
+            font-weight: bold;
+        }
+
+
+        .button:hover {
+            background-color: #555;
+        }
+
+        .info_block {
+            background-color: black;
+            border-radius: 8px;
+            background-size: 400px;
+            width: 200Px;
+            /*height: 50px;*/
+            text-align: left;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #f4a55e; /* Красный с помощью HEX */
+            font-size: 24px;
+            padding-left: 20px;
+            padding-bottom: 20px;
+            padding-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="buttons">
+        <button class="button" onclick="location.href='/workers'">Сотрудники</button>
+        <button class="button" onclick="location.href='/furniture'">Стандартные позиции</button>
+        <button class="button" onclick="location.href='/results-of-the-day'">Итоги дня</button>
+        <button class="button" onclick="location.href='/people-month-salary'">Расчет зарплаты</button>
+        <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
+    </div>
+</div>
+
+<h1 class="info_block" th:text="${personDto.getUsername()}"></h1>
+<br>
+<br>
+
+<h1 class="info_block" th:text="'Учет сдельной работы для ' + ${personDto.getUsername()}"></h1>
+<br>
+
+<form method="POST" action="/accept_worker_job" >
+<div th:if="${standartPositions != null}">
+    <h1 th:if="${standartPositions.size() != 0}">Стандартные позиции</h1>
+    <input type="hidden" th:object="${standartPositions}" name="standartPositions">
+    <input type="hidden" th:value="${result}" name="result">
+</div>
+
+    <div th:each="position : ${standartPositions}">
+        <h2 th:text="${position.getName()}"></h2>
+
+    </div>
+
+    <h1 th:if="${saw4 != null || saw16 != null || saw26 != null}">Распил</h1>
+<div th:if="${saw4 != null && saw4 != 0}">
+    <h2 th:text="${'Распилено листов ХДФ - ' + saw4 + ' ед.'}"></h2>
+    <input type="hidden" th:value="${saw4}" name="saw4">
+</div>
+
+<div th:if="${saw16 != null && saw16 != 0}">
+    <h2 th:text="${'Распилено листов ЛДСП16 - ' + saw16.toString() + ' ед.'}"></h2>
+    <input type="hidden" th:value="${saw16}" name="saw16">
+</div>
+
+<div th:if="${saw26 != null && saw26 != 0}">
+    <h2 th:text="${'Распилено листов ЛДСП16 - ' + saw26.toString() + ' ед.'}"></h2>
+    <input type="hidden" th:value="${saw26}" name="saw26">
+</div>
+<br>
+
+    <h1 th:if="${edging != null && edging != 0}">Кромление</h1>
+<div th:if="${edging != null && edging != 0}">
+    <h2 th:text="${'Закромлено листов ЛДСП - ' + edging.toString() + ' ед.'}"></h2>
+    <input type="hidden" th:value="${edging}" name="edging">
+</div>
+    <br>
+
+    <h1 th:if="${newCityDelivery != null || oldCityDelivery != null || komsaDelivery != null || samaraDelivery != null || otherDeliveryList != null}">Доставка</h1>
+<div th:if="${newCityDelivery != null && newCityDelivery != 0}">
+    <h2 th:text="${'Доставок по Новому городу - ' + newCityDelivery + ' адреса(ов)'}"></h2>
+    <input type="hidden" th:value="${newCityDelivery}" name="newCityDelivery">
+</div>
+<div th:if="${oldCityDelivery != null && oldCityDelivery != 0}">
+    <h2 th:text="${'Доставок по Старому городу - ' + oldCityDelivery + ' адреса(ов)'}"></h2>
+    <input type="hidden" th:value="${oldCityDelivery}" name="oldCityDelivery">
+</div>
+<div th:if="${komsaDelivery != null && komsaDelivery != 0}">
+    <h2 th:text="${'Доставок по Комсомольскому району - ' + komsaDelivery + ' адреса(ов)'}"></h2>
+    <input type="hidden" th:value="${komsaDelivery}" name="komsaDelivery">
+</div>
+<div th:if="${samaraDelivery != null && samaraDelivery != 0}">
+    <h2 th:text="${'Доставок по Самаре - ' + samaraDelivery + ' адреса(ов)'}"></h2>
+    <input type="hidden" th:value="${samaraDelivery}" name="samaraDelivery">
+</div>
+
+
+    <div th:if="${otherDelivery != null}">
+        <input type="hidden" th:value="${otherDelivery}" name="otherDeliveryList">
+        <input type="hidden" th:value="${otherDeliveryString}" name="otherDeliveryString">
+
+        <div th:if="${otherDelivery.size() != 0}">
+            <div th:each="other : ${otherDelivery}">
+                <h2 th:text="${other.getDistrict() + ' - ' + other.getCount() + ' адреса(ов)'}"></h2>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="user" th:value="${personDto.getUsername()}">
+
+    <button class="button" type="submit" value="Подтвердить">Подтвердить</button>
+</form>
+
+</body>
+</html>

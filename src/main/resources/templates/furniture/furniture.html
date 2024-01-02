@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Furniture</title>
+    <style>
+        body {
+            background-image: url("https://phonoteka.org/uploads/posts/2022-02/1644979077_23-phonoteka-org-p-izobrazhenie-dlya-fona-saita-23.png");
+
+            background-size: auto;
+            background-position: initial;
+        }
+
+        .header {
+            border-radius: 6px;
+            border-width: 4px;
+            border-color: #50392f;
+            background-color: #000;
+            color: #f4a55e;
+            padding: 10px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 24px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .button {
+            background-color: #f4a55e;
+            color: #381604;
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .button_select {
+            background-color: #F0F0F0;
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .body_window {
+            border-radius: 10px;
+            border-width: 4px;
+            border-color: #50392f;
+            /*background-color: #000;*/
+            /*color: #f4a55e;*/
+            padding: 10px;
+            /*text-align: center;*/
+            font-family: "Courier New", Courier, monospace;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background-color: #555;
+        }
+        .hidden-select {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="buttons">
+        <button class="button" onclick="location.href='/workers'">Сотрудники</button>
+        <button class="button" onclick="location.href='/furniture'">Стандартные позиции</button>
+        <button class="button" onclick="location.href='/results-of-the-day'">Итоги дня</button>
+        <button class="button" onclick="location.href='/people-month-salary'">Расчет зарплаты</button>
+        <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
+    </div>
+</div>
+
+
+<form class="body_window" action="/update_furniture" method="post">
+    <input type="submit" th:text="Обновить"/>
+</form>
+
+<div>
+    <button class="button_select" type="submit" onclick="toggleSelectCarts()">Тележки</button>
+
+    <div id="carts" class="hidden-select">
+        <div class="body_window" th:each="position: ${carts}">
+            <form method="GET" action="/standart-position">
+                <a th:text="${position.getName()}"></a>
+                <input type="hidden" name="name" th:value="${position.getName()}">
+                <button class="button" type="submit">Перейти</button>
+                <br>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <button class="button_select" type="submit" onclick="toggleSelectShelvings()">Стеллажи</button>
+
+    <div id="shelvings" class="hidden-select">
+        <div class="body_window" th:each="position: ${shelvings}">
+            <form method="GET" action="/standart-position">
+                <a th:text="${position.getName()}"></a>
+                <input type="hidden" name="name" th:value="${position.getName()}">
+                <button class="button" type="submit">Перейти</button>
+                <br>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <button class="button_select" type="submit" onclick="toggleSelectManicureTables()">Маникюрные столы</button>
+
+    <div id="manicureTables" class="hidden-select">
+        <div class="body_window" th:each="position: ${manicureTables}">
+            <form method="GET" action="/standart-position">
+                <a th:text="${position.getName()}"></a>
+                <input type="hidden" name="name" th:value="${position.getName()}">
+                <button class="button" type="submit">Перейти</button>
+                <br>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <button class="button_select" type="submit" onclick="toggleSelectMirrors()">Зеркала</button>
+
+    <div id="mirrors" class="hidden-select">
+        <div class="body_window" th:each="position: ${mirrors}">
+            <form method="GET" action="/standart-position">
+                <a th:text="${position.getName()}"></a>
+                <input type="hidden" name="name" th:value="${position.getName()}">
+                <button class="button" type="submit">Перейти</button>
+                <br>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <button class="button_select" type="submit" onclick="toggleSelectCommodes()">Комоды</button>
+
+    <div id="commodes" class="hidden-select">
+        <div class="body_window" th:each="position: ${commodes}">
+            <form method="GET" action="/standart-position">
+                <a th:text="${position.getName()}"></a>
+                <input type="hidden" name="name" th:value="${position.getName()}">
+                <button class="button" type="submit">Перейти</button>
+                <br>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!--<div class="body_window" th:each="position: ${standartPositions}">-->
+<!--    <form method="GET" action="/standart-position">-->
+<!--        <a th:text="${position.getName()}"></a>-->
+<!--        <input type="hidden" name="name" th:value="${position.getName()}">-->
+<!--        <button class="button" type="submit">Перейти</button>-->
+<!--        <br>-->
+<!--    </form>-->
+
+<!--</div>-->
+
+<script>
+    function toggleSelectCarts() {
+        var selectElement = document.getElementById("carts");
+        selectElement.classList.toggle("hidden-select");
+    }
+</script>
+<script>
+    function toggleSelectShelvings() {
+        var selectElement = document.getElementById("shelvings");
+        selectElement.classList.toggle("hidden-select");
+    }
+</script>
+<script>
+    function toggleSelectManicureTables() {
+        var selectElement = document.getElementById("manicureTables");
+        selectElement.classList.toggle("hidden-select");
+    }
+</script>
+<script>
+    function toggleSelectMirrors() {
+        var selectElement = document.getElementById("mirrors");
+        selectElement.classList.toggle("hidden-select");
+    }
+</script>
+<script>
+    function toggleSelectCommodes() {
+        var selectElement = document.getElementById("commodes");
+        selectElement.classList.toggle("hidden-select");
+    }
+</script>
+
+</body>
+</html>

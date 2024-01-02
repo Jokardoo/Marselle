@@ -1,0 +1,5 @@
+-- delete from product_chipboard where product_id > 0;
+-- delete from product_accessory where product_id > 0;
+-- delete from product where product_id > 0;
+-- delete from chipboard where id > 0;
+-- delete from accessory where accessory_id > 0;
