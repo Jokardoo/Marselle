@@ -4,160 +4,197 @@ package Projects.Marselle.models.furnitureGenerator;
 
 import Projects.Marselle.models.furniture.Product;
 import Projects.Marselle.models.furniture.standartPositions.materials.Chipboard;
+import lombok.Data;
 
+@Data
 public class ShelfGenerator {
 
-//    public Product generateShelf(TechnicalConditions technicalConditions) {
-//
-//    }
+    private ShelfTechnicalConditions technicalConditions;
+    private String height;
+    private String width;
+    private String depth;
 
-    // Метод генерирует боковину по техническому условию
-    public static Chipboard generateSide(TechnicalConditions technicalConditions) {
+    private String top_type;
+    private String bottom_type;
+    private String back_type;
+
+    private String legs;
+    private String shelf_count;
+    private String facade;
+    private String facade_type;
+
+    public ShelfGenerator() {
+
+    }
+
+    // Генерирует бок по заданным параметрам
+    public Chipboard generateSide() {
+
+        if (technicalConditions.checkValues() == false) {
+            System.out.println("Ошибка в параметрах");
+            return null;
+        }
         Chipboard side = new Chipboard();
-
-        Integer length = technicalConditions.getHeight();
-
-        Integer sizeBetweenFloorAndFurniture = SizeCalculator.getDistanceBetweenFloorAndFurniture(technicalConditions);
-        // Отнимаем расстояние футорок/колес/опор
-        length = length - sizeBetweenFloorAndFurniture;
-
-        // Если дно крышкой
-        if (technicalConditions.isBottomLikeCap() && technicalConditions.getBottomCapThickness() != null) {
-            length = length - technicalConditions.getBottomCapThickness();
-        }
-
-        // Если топ крышкой
-        if (technicalConditions.isTopLikeCap() && technicalConditions.getTopCapThickness() != null) {
-            length = length - technicalConditions.getTopCapThickness();
-        }
-
         side.setName("Бок");
+        // Если топ указан как полка или крышка
+        if (top_type.equalsIgnoreCase("shelf") || top_type.equalsIgnoreCase("cap")) {
+            // Если низ указан как полка или крышка
+            if (bottom_type.equalsIgnoreCase("shelf") || bottom_type.equalsIgnoreCase("cap")) {
+                // В этой части у нас все хорошо и мы делаем расчет
 
-        side.setWidth(technicalConditions.getDepth());
+                side.setThick(16);
+                side.setWidth(Integer.parseInt(depth));   // Ширина бока - это глубина стеллажа
 
-        side.setLength(length);
-        side.setEdging_bottom("blue");
+                int length = Integer.parseInt(height);
 
-        // Если сверху полка, то кромим
-        if (technicalConditions.isTopLikeShelf()) {
-            side.setEdging_left("blue");
+                // Если топ крышкой
+                if (top_type.equalsIgnoreCase("cap")) {
+                    length = length - 16;
+                }
+
+                if (bottom_type.equalsIgnoreCase("cap")) {
+                    length = length - 16;
+                }
+
+                side.setLength(length);
+
+                // Кромка с лицевой стороны
+                side.setEdging_bottom("blue");
+                // Если задняя стенка из ЛДСП или отсутствует
+                if (back_type.equalsIgnoreCase("chipboard")
+                        || back_type.equalsIgnoreCase("none")) {
+                    side.setEdging_top("blue");
+                }
+                // Если верхняя часть полкой
+                if (top_type.equalsIgnoreCase("shelf")) {
+                    side.setEdging_left("blue");
+                }
+                // Если нижняя часть полкой
+                if (bottom_type.equalsIgnoreCase("shelf")) {
+                    side.setEdging_right("blue");
+                }
+
+
+            }
         }
-        // Если снизу полка, то кромим
-        if (technicalConditions.isBottomLikeShelf()) {
-            side.setEdging_right("blue");
-        }
-        // Если задняя стенка из ЛДСП
-        if (technicalConditions.isBackWithChipboard() || technicalConditions.isBackOpened()) {
-            side.setEdging_top("blue");
-        }
-
-        side.setThick(16);
-
         return side;
     }
 
-    // Метод генерирует полку по техническому условию
-    public static Chipboard generteShelf(TechnicalConditions technicalConditions) {
-        Chipboard shelf = new Chipboard();
-        shelf.setName("Полка");
-
-        // длина полки
-        Integer length = technicalConditions.getWidth() - 32;
-
-        Integer width = technicalConditions.getDepth();
-
-        // Если задняя стенка из ЛДСП
-        if (technicalConditions.isBackWithChipboard()) {
-            width = width - 16;
-            shelf.setEdging_top(null);
-        }
-
-        shelf.setLength(length);
-        shelf.setWidth(width);
-
-        shelf.setEdging_bottom("blue");
-
-        // Если задняя часть открыта
-        if (technicalConditions.isBackOpened()) {
-            shelf.setEdging_top("blue");
-        }
-        return shelf;
-    }
-
-    public static Chipboard generateTopCap(TechnicalConditions technicalConditions) {
-        if (!technicalConditions.isTopLikeCap()) {
+    public Chipboard generateTop() {
+        if (technicalConditions.checkValues() == false) {
+            System.out.println("Ошибка в параметрах");
             return null;
         }
 
         Chipboard top = new Chipboard();
-        top.setName("Верхняя крышка");
-        top.setWidth(technicalConditions.getDepth());
-        top.setLength(technicalConditions.getWidth());
+        top.setName("Верх");
+        top.setThick(16);
+        // В тех. задании глубина шкафа будет являться шириной полки/крышки!
+        top.setWidth(Integer.parseInt(technicalConditions.getDepth()));
+        top.setEdging_bottom("blue");
 
-        if (technicalConditions.getTopCapThickness() != null) {
-            top.setThick(technicalConditions.getTopCapThickness());
+        // Если топ крышкой
+        if (technicalConditions.getTop_type().equalsIgnoreCase("cap")) {
+            top.setLength(Integer.parseInt(technicalConditions.getWidth()));
+            top.setEdging_right("blue");
+            top.setEdging_left("blue");
         }
+        // Если топ полкой
         else {
-            top.setThick(16);
+            top.setLength(Integer.parseInt(technicalConditions.getWidth()) - 32);
         }
 
-
-        // Если верхняя крышка тонкой кромкой
-        if (technicalConditions.isTopCapEdgingBlue()) {
-            // если у шкафа сзади ХДФ
-            if (technicalConditions.isBackWithHDF()) {
-                top.setEdging_bottom("blue");
-                top.setEdging_right("blue");
-                top.setEdging_left("blue");
-                top.setEdging_top(null);
-            }
-            else {
-                top.setEdgingBlue();
-            }
-        }
-        // Если верхняя крышка толстой кромкой
-        else if (technicalConditions.isTopCapEdgingRed()) {
-
-            if (technicalConditions.isBackWithHDF()) {
-                top.setEdging_bottom("red");
-                top.setEdging_right("red");
-                top.setEdging_left("red");
-                top.setEdging_top(null);
-            }
-            else {
-                top.setEdgingRed();
-            }
+        if (!technicalConditions.getBack_type().equalsIgnoreCase("hdf")) {
+            top.setEdging_top("blue");
         }
 
         return top;
     }
 
-//    public static Chipboard generateBottomCap (TechnicalConditions technicalConditions) {
-//
-//    }
+    public Chipboard generateBottom() {
+        if (technicalConditions.checkValues() == false) {
+            System.out.println("Ошибка в параметрах");
+            return null;
+        }
 
+        Chipboard bottom = new Chipboard();
+        bottom.setName("Дно");
+        bottom.setThick(16);
+        // В тех. задании глубина шкафа будет являться шириной полки/крышки!
+        bottom.setWidth(Integer.parseInt(technicalConditions.getDepth()));
+        bottom.setEdging_bottom("blue");
 
-    public static void main(String[] args) {
-        TechnicalConditions conditions = new TechnicalConditions();
+        // Если низ крышкой
+        if (technicalConditions.getBottom_type().equalsIgnoreCase("cap")) {
+            bottom.setLength(Integer.parseInt(technicalConditions.getWidth()));
+            bottom.setEdging_right("blue");
+            bottom.setEdging_left("blue");
+        }
+        // Если низ полкой
+        else {
+            bottom.setLength(Integer.parseInt(technicalConditions.getWidth()) - 32);
+        }
 
-        conditions.setBackOpened(true);
-        conditions.setDepth(300);
-        conditions.setHeight(1800);
-        conditions.setWidth(600);
+        if (!technicalConditions.getBack_type().equalsIgnoreCase("hdf")) {
+            bottom.setEdging_top("blue");
+        }
 
-        conditions.setHasLegSupport(true);
-
-        conditions.setTopLikeCap(true);
-        conditions.setTopCapThickness(26);
-        conditions.setBottomLikeCap(true);
-        conditions.setBottomCapThickness(26);
-
-        conditions.setLegSupportSize(30);
-
-        Chipboard side = generateSide(conditions);
-        Chipboard shelf = generteShelf(conditions);
-
-        System.out.println(side);
-        System.out.println(shelf);
+        return bottom;
     }
+
+    public Chipboard generateBack() {
+        if (technicalConditions.checkValues() == false) {
+            System.out.println("Ошибка параметров");
+            return null;
+        }
+
+        Chipboard back = new Chipboard();
+
+        // Если задней стенки нет
+        if (technicalConditions.getBack_type().equalsIgnoreCase("none")) {
+            back.setName("Отсутствует");
+            return back;
+            // Если задняя стенка из ЛДСП
+        } else if (technicalConditions.getBack_type().equalsIgnoreCase("chipboard")) {
+            back.setName("Задняя стенка (ЛДСП)");
+            back.setThick(16);
+
+            int length = Integer.parseInt(technicalConditions.getHeight()) - 32;
+
+            back.setLength(length);
+            back.setWidth(Integer.parseInt(technicalConditions.getWidth()) - 32);
+
+            return back;
+        }
+        // Если задняя стенка из ХДФ
+        else {
+            back.setName("Задняя стенка (ХДФ)");
+            back.setThick(4);
+            back.setWidth(Integer.parseInt(technicalConditions.getWidth()) - 2);
+            back.setLength(Integer.parseInt(technicalConditions.getHeight()) - 2);
+            return back;
+        }
+    }
+
+    public Chipboard generateShelf() {
+        if (technicalConditions.checkValues() == false) {
+            System.out.println("Ошибка параметров");
+            return null;
+        }
+
+        Chipboard shelf = new Chipboard();
+        shelf.setName("Полка");
+        shelf.setEdging_bottom("blue");
+
+        if (technicalConditions.getBack_type().equalsIgnoreCase("none")) {
+            shelf.setEdging_top("blue");
+        }
+
+        if (!technicalConditions.getBack_type().equalsIgnoreCase("chipboard")) {
+            shelf.setWidth(Integer.parseInt(technicalConditions.getDepth()));
+        }
+        shelf.setLength(Integer.parseInt(technicalConditions.getWidth()) - 32);
+        return shelf;
+    }
+
 }

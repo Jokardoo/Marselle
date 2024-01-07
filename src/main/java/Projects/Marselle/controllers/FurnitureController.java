@@ -3,6 +3,7 @@ package Projects.Marselle.controllers;
 import Projects.Marselle.models.furniture.Product;
 import Projects.Marselle.models.furniture.standartPositions.materials.Accessory;
 import Projects.Marselle.services.ProductService;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,9 +89,69 @@ public class FurnitureController {
         return modelAndView;
     }
 
-    @GetMapping("/furniture-generator-page/shelf")
+    @GetMapping("3")
     public ModelAndView shelfGeneratorPage() {
         ModelAndView modelAndView = new ModelAndView("furniture/shelf-generator-page");
+        return modelAndView;
+    }
+
+    @GetMapping("/shelf-generator-page-stage-2")
+    public ModelAndView shelfGeneratorPage2(@RequestParam("height") String height,
+                                            @RequestParam("width") String width,
+                                            @RequestParam("depth") String depth,
+                                            @RequestParam("top_type") String top_type,
+                                            @RequestParam("bottom_type") String bottom_type,
+                                            @RequestParam("back_type") String back_type,
+                                            @RequestParam("legs") String legs,
+                                            @RequestParam("shelf_count") String shelf_count,
+                                            @RequestParam("facade") String facade) {
+
+        ModelAndView modelAndView = new ModelAndView("furniture/shelf-generator-page-stage-2");
+
+        modelAndView.addObject("height", height);
+        modelAndView.addObject("width", width);
+        modelAndView.addObject("depth", depth);
+        modelAndView.addObject("top_type", top_type);
+        modelAndView.addObject("bottom_type", bottom_type);
+        modelAndView.addObject("back_type", back_type);
+        modelAndView.addObject("legs", legs);
+        modelAndView.addObject("shelf_count", shelf_count);
+        modelAndView.addObject("facade", facade);
+
+
+
+        if (facade.equalsIgnoreCase("none")) {
+            // ВОЗВРАЩАЕМ ГОТОВЫЙ СТЕЛЛАЖ
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("furniture/shelf-generator-page/calculate")
+    public ModelAndView calculateShelf(@RequestParam("height") String height,
+                                       @RequestParam("width") String width,
+                                       @RequestParam("depth") String depth,
+                                       @RequestParam("top_type") String top_type,
+                                       @RequestParam("bottom_type") String bottom_type,
+                                       @RequestParam("back_type") String back_type,
+                                       @RequestParam("legs") String legs,
+                                       @RequestParam("shelf_count") String shelf_count,
+                                       @RequestParam("facade") String facade,
+                                       @RequestParam("facade_type") String facade_type) {
+
+        ModelAndView modelAndView = new ModelAndView("furniture/furniture-generator-page");
+
+        System.out.println(height);
+        System.out.println(width);
+        System.out.println(depth);
+        System.out.println(top_type);
+        System.out.println(bottom_type);
+        System.out.println(back_type);
+        System.out.println(legs);
+        System.out.println(shelf_count);
+        System.out.println(facade);
+        System.out.println(facade_type);
+
         return modelAndView;
     }
 }

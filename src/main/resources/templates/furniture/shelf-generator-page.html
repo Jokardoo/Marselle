@@ -75,7 +75,7 @@
         <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
     </div>
 </div>
-<form method="get" action="/furniture-generator-page/shelf">
+<form method="get" action="/shelf-generator-page-stage-2">
     <h1>Параметры</h1>
     <br>
     <label for="height">Высота</label>
@@ -115,6 +115,29 @@
         <!-- Дополнительные варианты -->
     </select>
     <br>
+
+    <label for="legs">Ножки</label>
+    <select id="legs" name="legs">
+        <option value="adjustable_support">Футорки</option>
+        <option value="support">Опоры</option>
+        <!-- Дополнительные варианты -->
+    </select>
+    <br>
+
+    <label for="shelf_count">Количество полок</label>
+    <input id="shelf_count" name="shelf_count">
+    <br>
+
+    <label for="facade">Фасады</label>
+    <select id="facade" name="facade">
+        <option value="internal_facade">Внутренние фасады</option>
+        <option value="exterior_facade">Наружные фасады</option>
+        <option value="none">Отсутствуют</option>
+        <!-- Дополнительные варианты -->
+    </select>
+    <br>
+
+    <button type="submit" onclick="location.href='/shelf-generator-page-stage-2'">Далее</button>
 
 
 </form>

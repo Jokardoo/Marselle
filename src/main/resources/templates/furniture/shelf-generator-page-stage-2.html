@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Генератор стеллажей</title>
+  <style>
+    body {
+      background-image: url("https://phonoteka.org/uploads/posts/2022-02/1644979077_23-phonoteka-org-p-izobrazhenie-dlya-fona-saita-23.png");
+
+      background-size: cover;
+      background-position: initial;
+    }
+
+    .header {
+      border-radius: 6px;
+      border-width: 4px;
+      border-color: #50392f;
+      background-color: #000;
+      color: #f4a55e;
+      padding: 10px;
+      text-align: center;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 24px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .button {
+      background-color: #f4a55e;
+      color: #381604;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+
+
+    .button:hover {
+      background-color: #555;
+    }
+
+    .info_block {
+      background-color: black;
+      border-radius: 8px;
+      background-size: 400px;
+      width: 200Px;
+      /*height: 50px;*/
+      text-align: left;
+      font-family: 'Roboto', Arial, sans-serif;
+      color: #f4a55e; /* Красный с помощью HEX */
+      font-size: 24px;
+      padding-left: 20px;
+      padding-bottom: 20px;
+      padding-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="buttons">
+    <button class="button" onclick="location.href='/workers'">Сотрудники</button>
+    <button class="button" onclick="location.href='/furniture'">Стандартные позиции</button>
+    <button class="button" onclick="location.href='/results-of-the-day'">Итоги дня</button>
+    <button class="button" onclick="location.href='/people-month-salary'">Расчет зарплаты</button>
+    <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
+  </div>
+</div>
+<form method="POST" action="furniture/shelf-generator-page/calculate">
+
+  <input name="height" type="hidden" th:value="${height}">
+  <input name="width" type="hidden" th:value="${width}">
+  <input name="depth" type="hidden" th:value="${depth}">
+  <input name="top_type" type="hidden" th:value="${top_type}">
+  <input name="back_type" type="hidden" th:value="${back_type}">
+  <input name="bottom_type" type="hidden" th:value="${bottom_type}">
+  <input name="legs" type="hidden" th:value="${legs}">
+  <input name="shelf_count" type="hidden" th:value="${shelf_count}">
+  <input name="facade" type="hidden" th:value="${facade}">
+
+  <label for="facade_type">Тип фасадов</label>
+  <select id="facade_type" name="facade_type">
+    <option value="single">Одиночный</option>
+    <option value="double">Двойной</option>
+    <!-- Дополнительные варианты -->
+  </select>
+  <br>
+
+  <h2> При расчете стеллажа полки распределяются равномерно по всей его высоте. Исходя из этого
+  определяется высота фасадов. Введите количество полок, которые должны ПОЛНОСТЬЮ ПЕРЕКРЫВАТЬСЯ фасадом
+  (быть внутренними относительно фасада)</h2>
+
+  <label for="internal_shelves">Количество полок за фасадом</label>
+  <input id="internal_shelves" name="internal_shelves">
+
+  <button type="submit">Рассчитать</button>
+</form>
+
+</body>
+</html>
