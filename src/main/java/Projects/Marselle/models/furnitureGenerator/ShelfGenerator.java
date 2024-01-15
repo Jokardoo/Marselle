@@ -327,7 +327,7 @@ public class ShelfGenerator {
         }
 
         // Если фасады есть
-        if (!technicalConditions.getFacade().equalsIgnoreCase("none")) {
+        if (!technicalConditions.getFacade().equalsIgnoreCase("none") && generateFacade() != null) {
             // Добавляем фасады
             if (technicalConditions.getFacade_type().equalsIgnoreCase("single")) {
                 chipboardList.add(generateFacade());

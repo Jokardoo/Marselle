@@ -87,7 +87,8 @@
   <input name="shelf_count" type="hidden" th:value="${shelf_count}">
   <input name="facade" type="hidden" th:value="${facade}">
 
-  <label for="facade_type">Тип фасадов</label>
+<div th:if="${!facade.equalsIgnoreCase('none')}">
+  <label  for="facade_type">Тип фасадов</label>
   <select id="facade_type" name="facade_type">
     <option value="single">Одиночный</option>
     <option value="double">Двойной</option>
@@ -99,11 +100,14 @@
   <br>
 
   <h2> При расчете стеллажа полки распределяются равномерно по всей его высоте. Исходя из этого
-  определяется высота фасадов. Введите количество полок, которые должны ПОЛНОСТЬЮ ПЕРЕКРЫВАТЬСЯ фасадом
-  (быть внутренними относительно фасада)</h2>
-
-<!--  <label for="internal_shelves">Количество полок за фасадом</label>-->
-<!--  <input id="internal_shelves" name="internal_shelves">-->
+    определяется высота фасадов. Введите количество полок, которые должны ПОЛНОСТЬЮ ПЕРЕКРЫВАТЬСЯ фасадом
+    (быть внутренними относительно фасада)</h2>
+</div>
+  <div th:if="${facade.equalsIgnoreCase('none')}">
+    <h1>Фасады отсутствуют</h1>
+    <input name="facade_type" th:value="none">
+    <input name="facade_section_overlap" th:value="0">
+  </div>
 
   <button type="submit">Рассчитать</button>
 </form>

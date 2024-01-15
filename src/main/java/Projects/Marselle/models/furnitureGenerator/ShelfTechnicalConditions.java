@@ -62,7 +62,8 @@ public class ShelfTechnicalConditions {
         }
 
         if (!facade_type.equalsIgnoreCase("single")
-                && !facade_type.equalsIgnoreCase("double")) {
+                && !facade_type.equalsIgnoreCase("double")
+                && !facade_type.equalsIgnoreCase("none")) {
             return false;
         }
 
