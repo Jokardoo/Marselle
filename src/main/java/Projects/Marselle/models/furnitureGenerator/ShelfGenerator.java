@@ -5,26 +5,19 @@ package Projects.Marselle.models.furnitureGenerator;
 import Projects.Marselle.models.furniture.Product;
 import Projects.Marselle.models.furniture.standartPositions.materials.Chipboard;
 import lombok.Data;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.*;
 
 @Data
 public class ShelfGenerator {
 
     private ShelfTechnicalConditions technicalConditions;
-    private String height;
-    private String width;
-    private String depth;
 
-    private String top_type;
-    private String bottom_type;
-    private String back_type;
 
-    private String legs;
-    private String shelf_count;
-    private String facade;
-    private String facade_type;
-
-    public ShelfGenerator() {
-
+    public ShelfGenerator(ShelfTechnicalConditions conditions) {
+        this.technicalConditions = conditions;
     }
 
     // Генерирует бок по заданным параметрам
@@ -37,22 +30,22 @@ public class ShelfGenerator {
         Chipboard side = new Chipboard();
         side.setName("Бок");
         // Если топ указан как полка или крышка
-        if (top_type.equalsIgnoreCase("shelf") || top_type.equalsIgnoreCase("cap")) {
+        if (technicalConditions.getTop_type().equalsIgnoreCase("shelf") || technicalConditions.getTop_type().equalsIgnoreCase("cap")) {
             // Если низ указан как полка или крышка
-            if (bottom_type.equalsIgnoreCase("shelf") || bottom_type.equalsIgnoreCase("cap")) {
+            if (technicalConditions.getBottom_type().equalsIgnoreCase("shelf") || technicalConditions.getBottom_type().equalsIgnoreCase("cap")) {
                 // В этой части у нас все хорошо и мы делаем расчет
 
                 side.setThick(16);
-                side.setWidth(Integer.parseInt(depth));   // Ширина бока - это глубина стеллажа
+                side.setWidth(Integer.parseInt(technicalConditions.getDepth()));   // Ширина бока - это глубина стеллажа
 
-                int length = Integer.parseInt(height);
+                int length = Integer.parseInt(technicalConditions.getHeight() );
 
                 // Если топ крышкой
-                if (top_type.equalsIgnoreCase("cap")) {
+                if (technicalConditions.getTop_type().equalsIgnoreCase("cap")) {
                     length = length - 16;
                 }
 
-                if (bottom_type.equalsIgnoreCase("cap")) {
+                if (technicalConditions.getBottom_type().equalsIgnoreCase("cap")) {
                     length = length - 16;
                 }
 
@@ -61,16 +54,16 @@ public class ShelfGenerator {
                 // Кромка с лицевой стороны
                 side.setEdging_bottom("blue");
                 // Если задняя стенка из ЛДСП или отсутствует
-                if (back_type.equalsIgnoreCase("chipboard")
-                        || back_type.equalsIgnoreCase("none")) {
+                if (technicalConditions.getBack_type().equalsIgnoreCase("chipboard")
+                        || technicalConditions.getBack_type().equalsIgnoreCase("none")) {
                     side.setEdging_top("blue");
                 }
                 // Если верхняя часть полкой
-                if (top_type.equalsIgnoreCase("shelf")) {
+                if (technicalConditions.getTop_type().equalsIgnoreCase("shelf")) {
                     side.setEdging_left("blue");
                 }
                 // Если нижняя часть полкой
-                if (bottom_type.equalsIgnoreCase("shelf")) {
+                if (technicalConditions.getBottom_type().equalsIgnoreCase("shelf")) {
                     side.setEdging_right("blue");
                 }
 
@@ -193,8 +186,216 @@ public class ShelfGenerator {
         if (!technicalConditions.getBack_type().equalsIgnoreCase("chipboard")) {
             shelf.setWidth(Integer.parseInt(technicalConditions.getDepth()));
         }
+        else {
+            shelf.setWidth(Integer.parseInt(technicalConditions.getDepth()) - 16);
+        }
+
         shelf.setLength(Integer.parseInt(technicalConditions.getWidth()) - 32);
         return shelf;
     }
 
+    public Chipboard generateInternalShelf() {
+        if (technicalConditions.checkValues() == false) {
+            System.out.println("Ошибка параметров");
+            return null;
+        }
+
+        Chipboard shelf = new Chipboard();
+        shelf.setName("Внутренняя полка");
+        shelf.setEdging_bottom("blue");
+
+        if (technicalConditions.getBack_type().equalsIgnoreCase("none")) {
+            shelf.setEdging_top("blue");
+        }
+
+        if (!technicalConditions.getBack_type().equalsIgnoreCase("chipboard")) {
+            shelf.setWidth(Integer.parseInt(technicalConditions.getDepth()) - 16);
+        }
+        else {
+            shelf.setWidth(Integer.parseInt(technicalConditions.getDepth()) - 32);
+        }
+        shelf.setLength(Integer.parseInt(technicalConditions.getWidth()) - 32);
+        return shelf;
+    }
+
+    public boolean hasFacade() {
+        String facade = technicalConditions.getFacade();
+
+        if (facade.equalsIgnoreCase("internal_facade")
+                    || facade.equalsIgnoreCase("exterior_facade")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Chipboard generateFacade() {
+        if (!hasFacade()) {
+            return null;
+        }
+        int facadeHeight;
+        int facadeWidth;
+
+        // количество перекрываемых секций
+        int sectionOverlap = Integer.parseInt(technicalConditions.getFacade_section_overlap());
+        // Если фасад внутренний
+        if (technicalConditions.getFacade().equalsIgnoreCase("internal_facade")) {
+            if (sectionOverlap == 1) {
+                facadeHeight = getDistanceBetweenHoles() - 24;
+            } else if (sectionOverlap > 1) {
+                facadeHeight = (getDistanceBetweenHoles() * sectionOverlap) - 24;
+            }
+            else {
+                System.out.println("Ошибка в методе ' generateFacade()'");
+                return null;
+            }
+        }
+        // Если фасад наружний
+        else if (technicalConditions.getFacade().equalsIgnoreCase("exterior_facade")) {
+
+            if (sectionOverlap == 1) {
+                facadeHeight = getDistanceBetweenHoles() + 8;
+            } else if (sectionOverlap > 1) {
+                facadeHeight = (getDistanceBetweenHoles() * sectionOverlap) + 8;
+                System.out.println("facade height = " + facadeHeight);
+            }
+            else {
+                System.out.println("Ошибка в методе ' generateFacade()'");
+                return null;
+            }
+        }
+
+        else  {
+            System.out.println("Ошибка в методе ' generateFacade()'");
+            return null;
+        }
+
+        if (technicalConditions.getFacade_type().equalsIgnoreCase("single")) {
+            facadeWidth = Integer.parseInt(technicalConditions.getWidth()) - 8;
+        }
+        else if (technicalConditions.getFacade_type().equalsIgnoreCase("double")) {
+            facadeWidth = ((Integer.parseInt(technicalConditions.getWidth()) - 14) / 2);
+        }
+        else {
+            System.out.println("Ошибка в методе ' generateFacade()'");
+            return null;
+        }
+
+        Chipboard facade =new Chipboard();
+        facade.setName("Фасад");
+        facade.setLength(facadeHeight);
+        facade.setWidth(facadeWidth);
+        facade.setEdgingRed();
+        facade.setThick(16);
+
+        return facade;
+    }
+
+    // Количество секций
+    public int getSectionsCount() {
+        int count = 1 + Integer.parseInt(technicalConditions.getShelf_count());
+        System.out.println(count + " sections");
+        return count;
+    }
+
+    public int getDistanceBetweenHoles() {
+        int shelfHeight = Integer.parseInt(technicalConditions.getHeight());
+
+        int sections = getSectionsCount();
+
+        int result = (shelfHeight - 16) / sections;
+
+        if (result > 0) {
+            System.out.println("Distance between holes = " + result);
+            return result;
+        }
+        System.out.println("Error on method 'getDistanceBetweenHoles'!");
+        return 0;
+    }
+
+    public List<Chipboard> getShelf() {
+        List<Chipboard> chipboardList = new ArrayList<>();
+
+        chipboardList.add(generateSide());
+        chipboardList.add(generateSide());
+        chipboardList.add(generateTop());
+        chipboardList.add(generateBottom());
+
+        if (!technicalConditions.getBack_type().equalsIgnoreCase("none")) {
+            chipboardList.add(generateBack());
+        }
+
+        // Если фасады есть
+        if (!technicalConditions.getFacade().equalsIgnoreCase("none")) {
+            // Добавляем фасады
+            if (technicalConditions.getFacade_type().equalsIgnoreCase("single")) {
+                chipboardList.add(generateFacade());
+            }
+            else if (technicalConditions.getFacade_type().equalsIgnoreCase("double")) {
+                chipboardList.add(generateFacade());
+                chipboardList.add(generateFacade());
+            }
+
+            int internalShelvesCount = 0;
+
+            if (!technicalConditions.getFacade_section_overlap().equalsIgnoreCase("0")
+            && !technicalConditions.getFacade_section_overlap().equalsIgnoreCase("")) {
+                internalShelvesCount = Integer.parseInt(technicalConditions.getFacade_section_overlap()) - 1;
+            }
+
+
+            int simpleShelvesCount = Integer.parseInt(technicalConditions.getShelf_count()) - internalShelvesCount;
+
+            // добавляем обычные полки
+            for (int i = 0; i < simpleShelvesCount; i++) {
+                chipboardList.add(generateShelf());
+            }
+            // Добавляем внутренние полки
+            for (int i = 0; i < internalShelvesCount; i++) {
+                chipboardList.add(generateInternalShelf());
+            }
+        }
+        // Если фасадов нет
+        else {
+            for (int i = 0; i < Integer.parseInt(technicalConditions.getShelf_count()); i++) {
+                chipboardList.add(generateShelf());
+            }
+        }
+
+        return chipboardList;
+    }
+
+    public static void main(String[] args) {
+        ShelfTechnicalConditions conditions = new ShelfTechnicalConditions();
+
+        conditions.setHeight("1800");
+        conditions.setWidth("600");
+        conditions.setDepth("350");
+        conditions.setTop_type("shelf");
+        conditions.setBottom_type("shelf");
+        conditions.setBack_type("hdf");
+        conditions.setLegs("adjustable_support");
+        conditions.setShelf_count("4");
+        conditions.setFacade("exterior_facade");
+        conditions.setFacade_type("double");
+        conditions.setFacade_section_overlap("2");
+//        conditions.setInternal_shelves("1");
+
+        ShelfGenerator shelfGenerator = new ShelfGenerator(conditions);
+        shelfGenerator.setTechnicalConditions(conditions);
+
+        System.out.println(shelfGenerator.generateSide());
+        System.out.println("----------");
+        System.out.println(shelfGenerator.generateShelf());
+        System.out.println("----------");
+        System.out.println(shelfGenerator.generateTop());
+        System.out.println("----------");
+        System.out.println(shelfGenerator.generateBottom());
+        System.out.println("----------");
+        System.out.println(shelfGenerator.generateBack());
+        System.out.println("----------");
+        System.out.println(shelfGenerator.generateFacade());
+        System.out.println("----------");
+    }
 }

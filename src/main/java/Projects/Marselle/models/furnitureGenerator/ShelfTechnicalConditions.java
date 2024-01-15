@@ -18,12 +18,17 @@ public class ShelfTechnicalConditions {
     private String facade;
     private String facade_type;
 
+//    private String internal_shelves;
+
+    private String facade_section_overlap;
+
     // проверяет валидность параметров
     public boolean checkValues() {
         boolean check1 = height.matches("[0-9]+");
         boolean check2 = width.matches("[0-9]+");
         boolean check3 = depth.matches("[0-9]+");
         boolean check4 = shelf_count.matches("[0-9]+");
+
 
         if (check1 == false || check2 == false || check3 == false || check4 == false) {
             // тест завален
@@ -59,6 +64,20 @@ public class ShelfTechnicalConditions {
         if (!facade_type.equalsIgnoreCase("single")
                 && !facade_type.equalsIgnoreCase("double")) {
             return false;
+        }
+
+//        if (!internal_shelves.matches("[0-9]*")) {
+//            return false;
+//        }
+
+        if (!facade_section_overlap.matches("[0-9]*")) {
+            return false;
+        }
+
+        if (!facade.equalsIgnoreCase("none")) {
+            if (Integer.parseInt(getFacade_section_overlap()) > Integer.parseInt(getShelf_count()) + 1) {
+                return false;
+            }
         }
 
         return true;

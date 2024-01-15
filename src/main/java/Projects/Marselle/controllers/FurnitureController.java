@@ -2,6 +2,9 @@ package Projects.Marselle.controllers;
 
 import Projects.Marselle.models.furniture.Product;
 import Projects.Marselle.models.furniture.standartPositions.materials.Accessory;
+import Projects.Marselle.models.furniture.standartPositions.materials.Chipboard;
+import Projects.Marselle.models.furnitureGenerator.ShelfGenerator;
+import Projects.Marselle.models.furnitureGenerator.ShelfTechnicalConditions;
 import Projects.Marselle.services.ProductService;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +92,7 @@ public class FurnitureController {
         return modelAndView;
     }
 
-    @GetMapping("3")
+    @GetMapping("/shelf-generator-page-stage-1")
     public ModelAndView shelfGeneratorPage() {
         ModelAndView modelAndView = new ModelAndView("furniture/shelf-generator-page");
         return modelAndView;
@@ -137,20 +140,29 @@ public class FurnitureController {
                                        @RequestParam("legs") String legs,
                                        @RequestParam("shelf_count") String shelf_count,
                                        @RequestParam("facade") String facade,
-                                       @RequestParam("facade_type") String facade_type) {
+                                       @RequestParam("facade_type") String facade_type,
+                                       @RequestParam("facade_section_overlap") String facade_section_overlap) {
 
         ModelAndView modelAndView = new ModelAndView("furniture/furniture-generator-page");
 
-        System.out.println(height);
-        System.out.println(width);
-        System.out.println(depth);
-        System.out.println(top_type);
-        System.out.println(bottom_type);
-        System.out.println(back_type);
-        System.out.println(legs);
-        System.out.println(shelf_count);
-        System.out.println(facade);
-        System.out.println(facade_type);
+        ShelfTechnicalConditions conditions = new ShelfTechnicalConditions();
+        conditions.setHeight(height);
+        conditions.setWidth(width);
+        conditions.setDepth(depth);
+        conditions.setTop_type(top_type);
+        conditions.setBottom_type(bottom_type);
+        conditions.setBack_type(back_type);
+        conditions.setLegs(legs);
+        conditions.setShelf_count(shelf_count);
+        conditions.setFacade(facade);
+        conditions.setFacade_type(facade_type);
+        conditions.setFacade_section_overlap(facade_section_overlap);
+
+        ShelfGenerator shelfGenerator = new ShelfGenerator(conditions);
+
+        for (Chipboard chipboard : shelfGenerator.getShelf()) {
+            System.out.println(chipboard);
+        }
 
         return modelAndView;
     }
