@@ -47,19 +47,18 @@
       background-color: #555;
     }
 
-    .info_block {
-      background-color: black;
-      border-radius: 8px;
-      background-size: 400px;
-      width: 200Px;
-      /*height: 50px;*/
-      text-align: left;
-      font-family: 'Roboto', Arial, sans-serif;
-      color: #f4a55e; /* Красный с помощью HEX */
-      font-size: 24px;
-      padding-left: 20px;
-      padding-bottom: 20px;
-      padding-top: 20px;
+    .container {
+      width: 800px;
+      margin: auto;
+
+      /*зазор между строками*/
+      line-height: 2;
+
+      font-weight: bold;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
 
   </style>
@@ -75,7 +74,7 @@
     <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
   </div>
 </div>
-<form method="POST" action="furniture/shelf-generator-page/calculate">
+<form class="container" method="POST" action="furniture/shelf-generator-page/calculate">
 
   <input name="height" type="hidden" th:value="${height}">
   <input name="width" type="hidden" th:value="${width}">
@@ -105,8 +104,8 @@
 </div>
   <div th:if="${facade.equalsIgnoreCase('none')}">
     <h1>Фасады отсутствуют</h1>
-    <input name="facade_type" th:value="none">
-    <input name="facade_section_overlap" th:value="0">
+    <input type="hidden" name="facade_type" th:value="none">
+    <input type="hidden" name="facade_section_overlap" th:value="0">
   </div>
 
   <button type="submit">Рассчитать</button>

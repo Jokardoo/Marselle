@@ -143,7 +143,7 @@ public class FurnitureController {
                                        @RequestParam("facade_type") String facade_type,
                                        @RequestParam("facade_section_overlap") String facade_section_overlap) {
 
-        ModelAndView modelAndView = new ModelAndView("furniture/furniture-generator-page");
+        ModelAndView modelAndView = new ModelAndView("furniture/furniture-generate-result");
 
         ShelfTechnicalConditions conditions = new ShelfTechnicalConditions();
         conditions.setHeight(height);
@@ -163,6 +163,8 @@ public class FurnitureController {
         for (Chipboard chipboard : shelfGenerator.getShelf()) {
             System.out.println(chipboard);
         }
+        modelAndView.addObject("shelfChipboardList", shelfGenerator.getShelf());
+        modelAndView.addObject("stringListOfDetails", shelfGenerator.getStringResultOfShelfDetails());
 
         return modelAndView;
     }

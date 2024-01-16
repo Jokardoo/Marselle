@@ -366,6 +366,33 @@ public class ShelfGenerator {
         return chipboardList;
     }
 
+    public HashMap<Chipboard, Integer> getMapDetailsOfShelf() {
+        List<Chipboard> list = getShelf();
+
+        HashMap<Chipboard, Integer> map = new HashMap<>();
+
+        for (Chipboard chipboard : list) {
+            if (map.containsKey(chipboard)) {
+                map.put(chipboard, map.get(chipboard) + 1);
+            }
+            else {
+                map.put(chipboard, 1);
+            }
+        }
+        return map;
+    }
+
+    public List<String> getStringResultOfShelfDetails() {
+        HashMap<Chipboard, Integer> map = getMapDetailsOfShelf();
+
+        List<String> list = new ArrayList<>();
+
+        for (Chipboard c : map.keySet()) {
+            list.add(c.getName() + " - " + c.getLength() + " x " + c.getWidth() + " (" + map.get(c) + ") ед.");
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         ShelfTechnicalConditions conditions = new ShelfTechnicalConditions();
 

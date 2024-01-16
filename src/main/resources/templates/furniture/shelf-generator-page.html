@@ -40,26 +40,33 @@
             font-size: 18px;
             cursor: pointer;
         }
-
+        .button_select {
+            background-color: #F0F0F0;
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
 
 
         .button:hover {
             background-color: #555;
         }
 
-        .info_block {
-            background-color: black;
-            border-radius: 8px;
-            background-size: 400px;
-            width: 200Px;
-            /*height: 50px;*/
-            text-align: left;
-            font-family: 'Roboto', Arial, sans-serif;
-            color: #f4a55e; /* Красный с помощью HEX */
-            font-size: 24px;
-            padding-left: 20px;
-            padding-bottom: 20px;
-            padding-top: 20px;
+        .container {
+            width: 800px;
+            margin: auto;
+
+            /*зазор между строками*/
+            line-height: 2;
+
+            font-weight: bold;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
     </style>
@@ -75,23 +82,25 @@
         <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
     </div>
 </div>
-<form method="get" action="/shelf-generator-page-stage-2">
+<br>
+<br>
+<form class="container" method="get" action="/shelf-generator-page-stage-2">
     <h1>Параметры</h1>
     <br>
-    <label for="height">Высота</label>
+    <label style="padding: 30px" for="height">Высота</label>
     <input id="height" name="height">
     <br>
 
-    <label for="width">Ширина</label>
+    <label style="padding: 30px" for="width">Ширина</label>
     <input id="width" name="width">
     <br>
 
-    <label for="depth">Глубина</label>
+    <label style="padding: 30px" for="depth">Глубина</label>
     <input id="depth" name="depth">
     <br>
     <br>
 
-    <label for="top_type">Верхняя часть</label>
+    <label style="padding: 30px" for="top_type">Верхняя часть</label>
     <select id="top_type" name="top_type">
         <option value="shelf">Полка</option>
         <option value="cap">Крышка</option>
@@ -99,7 +108,7 @@
     </select>
     <br>
 
-    <label for="bottom_type" >Нижняя часть</label>
+    <label style="padding: 30px" for="bottom_type" >Нижняя часть</label>
     <select id="bottom_type" name="bottom_type">
         <option value="shelf">Полка</option>
         <option value="cap">Крышка</option>
@@ -107,7 +116,7 @@
     </select>
     <br>
 
-    <label for="back_type">Задняя стенка</label>
+    <label style="padding: 30px" for="back_type">Задняя стенка</label>
     <select id="back_type" name="back_type">
         <option value="hdf">ХДФ</option>
         <option value="chipboard">ЛДСП</option>
@@ -116,7 +125,7 @@
     </select>
     <br>
 
-    <label for="legs">Ножки</label>
+    <label style="padding: 30px" for="legs">Ножки</label>
     <select id="legs" name="legs">
         <option value="adjustable_support">Футорки</option>
         <option value="support">Опоры</option>
@@ -124,11 +133,11 @@
     </select>
     <br>
 
-    <label for="shelf_count">Количество полок</label>
+    <label style="padding: 30px" for="shelf_count">Количество полок</label>
     <input id="shelf_count" name="shelf_count">
     <br>
 
-    <label for="facade">Фасады</label>
+    <label style="padding: 30px" for="facade">Фасады</label>
     <select id="facade" name="facade">
         <option value="internal_facade">Внутренние фасады</option>
         <option value="exterior_facade">Наружные фасады</option>
@@ -137,7 +146,7 @@
     </select>
     <br>
 
-    <button type="submit" onclick="location.href='/shelf-generator-page-stage-2'">Далее</button>
+    <button class="button_select" type="submit" onclick="location.href='/shelf-generator-page-stage-2'">Далее</button>
 
 
 </form>

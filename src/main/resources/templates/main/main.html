@@ -2,11 +2,54 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <style>
-        body {
-            background-image: url("https://phonoteka.org/uploads/posts/2022-02/1644979077_23-phonoteka-org-p-izobrazhenie-dlya-fona-saita-23.png");
+        /*body {*/
+        /*    background-image: url("https://phonoteka.org/uploads/posts/2022-02/1644979077_23-phonoteka-org-p-izobrazhenie-dlya-fona-saita-23.png");*/
 
+        /*    background-size: cover;*/
+        /*    background-position: initial;*/
+        /*}*/
+        body {
+            /*background-image: url("retro_background.jpg");*/
             background-size: cover;
-            background-position: initial;
+            background-repeat: no-repeat;
+            font-family: "Courier New", monospace;
+        }
+        .container {
+            text-align: center;
+            margin-top: 200px;
+        }
+
+        /*.button {*/
+        /*    background-color: #ff00ff;*/
+        /*    color: #ffffff;*/
+        /*    font-size: 20px;*/
+        /*    border-radius: 5px;*/
+        /*    padding: 10px 20px;*/
+        /*    text-decoration: none;*/
+        /*    margin: 10px;*/
+        /*}*/
+
+        h1 {
+            color: #ff0000;
+            font-size: 48px;
+        }
+
+        p {
+            color: #000000;
+            font-size: 24px;
+        }
+
+        a {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #000000;
+            padding: 10px 20px;
+            font-size: 20px;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #ff0000;
         }
 
         .header {
@@ -25,6 +68,15 @@
             display: flex;
             justify-content: center;
             padding: 20px;
+        }
+        .button_select {
+            background-color: #F0F0F0;
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
         }
 
         .button {
@@ -55,6 +107,10 @@
         <button class="button" onclick="location.href='/people-month-salary'">Расчет зарплаты</button>
         <button class="button" onclick="location.href='logout'">Выйти из профиля</button>
     </div>
+</div>
+
+<div>
+    <button class="button_select" onclick="location.href='/furniture-generator-page'">Проектирование мебели</button>
 </div>
 
 </body>
