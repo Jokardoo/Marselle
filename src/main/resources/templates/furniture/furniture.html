@@ -75,6 +75,7 @@
 
 <div class="header">
     <div class="buttons">
+        <button class="button" onclick="location.href='/furniture-generator-page'">Проектирование мебели</button>
         <button class="button" onclick="location.href='/workers'">Сотрудники</button>
         <button class="button" onclick="location.href='/furniture'">Стандартные позиции</button>
         <button class="button" onclick="location.href='/results-of-the-day'">Итоги дня</button>
@@ -85,7 +86,7 @@
 
 
 <form class="body_window" action="/update_furniture" method="post">
-    <input type="submit" th:text="Обновить"/>
+    <input class="button_select" type="submit" th:text="Обновить"/>
 </form>
 
 <div>
@@ -96,7 +97,7 @@
             <form method="GET" action="/standart-position">
                 <a th:text="${position.getName()}"></a>
                 <input type="hidden" name="name" th:value="${position.getName()}">
-                <button class="button" type="submit">Перейти</button>
+                <button class="button_select" type="submit">Перейти</button>
                 <br>
             </form>
 
@@ -112,7 +113,7 @@
             <form method="GET" action="/standart-position">
                 <a th:text="${position.getName()}"></a>
                 <input type="hidden" name="name" th:value="${position.getName()}">
-                <button class="button" type="submit">Перейти</button>
+                <button class="button_select" type="submit">Перейти</button>
                 <br>
             </form>
 
@@ -128,7 +129,7 @@
             <form method="GET" action="/standart-position">
                 <a th:text="${position.getName()}"></a>
                 <input type="hidden" name="name" th:value="${position.getName()}">
-                <button class="button" type="submit">Перейти</button>
+                <button class="button_select" type="submit">Перейти</button>
                 <br>
             </form>
 
@@ -144,7 +145,7 @@
             <form method="GET" action="/standart-position">
                 <a th:text="${position.getName()}"></a>
                 <input type="hidden" name="name" th:value="${position.getName()}">
-                <button class="button" type="submit">Перейти</button>
+                <button class="button_select" type="submit">Перейти</button>
                 <br>
             </form>
 
@@ -160,7 +161,7 @@
             <form method="GET" action="/standart-position">
                 <a th:text="${position.getName()}"></a>
                 <input type="hidden" name="name" th:value="${position.getName()}">
-                <button class="button" type="submit">Перейти</button>
+                <button class="button_select" type="submit">Перейти</button>
                 <br>
             </form>
 

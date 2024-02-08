@@ -1,9 +1,10 @@
-package Projects.Marselle.models.furnitureGenerator;
+package Projects.Marselle.models.furnitureGenerator.shelf;
 
+import Projects.Marselle.models.furnitureGenerator.interfaces.TechnicalConditions;
 import lombok.Data;
 
 @Data
-public class ShelfTechnicalConditions {
+public class ShelfTechnicalConditions implements TechnicalConditions {
     private String width;
     private String height;
     private String depth;
@@ -23,6 +24,7 @@ public class ShelfTechnicalConditions {
     private String facade_section_overlap;
 
     // проверяет валидность параметров
+    @Override
     public boolean checkValues() {
         boolean check1 = height.matches("[0-9]+");
         boolean check2 = width.matches("[0-9]+");

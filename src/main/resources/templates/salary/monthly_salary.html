@@ -33,7 +33,7 @@
             color: #381604;
             border-radius: 8px;
             padding: 10px 20px;
-            margin: 0 40px;
+            margin: 0 10px;
             border: none;
             font-family: "Courier New", Courier, monospace;
             font-size: 18px;
@@ -69,6 +69,7 @@
 <div class="header">
     <a th:text="${personDto.getUsername()}"></a>
     <div class="buttons">
+        <button class="button" onclick="location.href='/furniture-generator-page'">Проектирование мебели</button>
         <button class="button" onclick="location.href='/workers'">Сотрудники</button>
         <button class="button" onclick="location.href='/furniture'">Стандартные позиции</button>
         <button class="button" onclick="location.href='/results-of-the-day'">Итоги дня</button>

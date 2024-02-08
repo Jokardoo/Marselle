@@ -1,17 +1,15 @@
-package Projects.Marselle.models.furnitureGenerator;
+package Projects.Marselle.models.furnitureGenerator.shelf;
 
 // Класс создает стеллажи со спецификацией
 
-import Projects.Marselle.models.furniture.Product;
 import Projects.Marselle.models.furniture.standartPositions.materials.Chipboard;
+import Projects.Marselle.models.furnitureGenerator.interfaces.FurnitureGenerator;
 import lombok.Data;
-import org.springframework.http.HttpEntity;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
 @Data
-public class ShelfGenerator {
+public class ShelfGenerator implements FurnitureGenerator {
 
     private ShelfTechnicalConditions technicalConditions;
 
@@ -314,7 +312,8 @@ public class ShelfGenerator {
         return 0;
     }
 
-    public List<Chipboard> getShelf() {
+    @Override
+    public List<Chipboard> generateProduct() {
         List<Chipboard> chipboardList = new ArrayList<>();
 
         chipboardList.add(generateSide());
@@ -367,7 +366,7 @@ public class ShelfGenerator {
     }
 
     public HashMap<Chipboard, Integer> getMapDetailsOfShelf() {
-        List<Chipboard> list = getShelf();
+        List<Chipboard> list = generateProduct();
 
         HashMap<Chipboard, Integer> map = new HashMap<>();
 
@@ -393,36 +392,6 @@ public class ShelfGenerator {
         return list;
     }
 
-    public static void main(String[] args) {
-        ShelfTechnicalConditions conditions = new ShelfTechnicalConditions();
 
-        conditions.setHeight("1800");
-        conditions.setWidth("600");
-        conditions.setDepth("350");
-        conditions.setTop_type("shelf");
-        conditions.setBottom_type("shelf");
-        conditions.setBack_type("hdf");
-        conditions.setLegs("adjustable_support");
-        conditions.setShelf_count("4");
-        conditions.setFacade("exterior_facade");
-        conditions.setFacade_type("double");
-        conditions.setFacade_section_overlap("2");
-//        conditions.setInternal_shelves("1");
 
-        ShelfGenerator shelfGenerator = new ShelfGenerator(conditions);
-        shelfGenerator.setTechnicalConditions(conditions);
-
-        System.out.println(shelfGenerator.generateSide());
-        System.out.println("----------");
-        System.out.println(shelfGenerator.generateShelf());
-        System.out.println("----------");
-        System.out.println(shelfGenerator.generateTop());
-        System.out.println("----------");
-        System.out.println(shelfGenerator.generateBottom());
-        System.out.println("----------");
-        System.out.println(shelfGenerator.generateBack());
-        System.out.println("----------");
-        System.out.println(shelfGenerator.generateFacade());
-        System.out.println("----------");
-    }
 }

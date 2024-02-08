@@ -3,10 +3,9 @@ package Projects.Marselle.controllers;
 import Projects.Marselle.models.furniture.Product;
 import Projects.Marselle.models.furniture.standartPositions.materials.Accessory;
 import Projects.Marselle.models.furniture.standartPositions.materials.Chipboard;
-import Projects.Marselle.models.furnitureGenerator.ShelfGenerator;
-import Projects.Marselle.models.furnitureGenerator.ShelfTechnicalConditions;
+import Projects.Marselle.models.furnitureGenerator.shelf.ShelfGenerator;
+import Projects.Marselle.models.furnitureGenerator.shelf.ShelfTechnicalConditions;
 import Projects.Marselle.services.ProductService;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -160,10 +159,10 @@ public class FurnitureController {
 
         ShelfGenerator shelfGenerator = new ShelfGenerator(conditions);
 
-        for (Chipboard chipboard : shelfGenerator.getShelf()) {
+        for (Chipboard chipboard : shelfGenerator.generateProduct()) {
             System.out.println(chipboard);
         }
-        modelAndView.addObject("shelfChipboardList", shelfGenerator.getShelf());
+        modelAndView.addObject("shelfChipboardList", shelfGenerator.generateProduct());
         modelAndView.addObject("stringListOfDetails", shelfGenerator.getStringResultOfShelfDetails());
 
         return modelAndView;

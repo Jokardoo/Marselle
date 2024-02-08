@@ -51,6 +51,15 @@
             font-size: 16px;
             cursor: pointer;
         }
+        .button_select {
+            background-color: #F0F0F0;
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
 
     </style>
 
@@ -58,12 +67,12 @@
 
 <body>
 <h1 th:text="${'Расчет месячной зарплаты для ' + currentPerson.getUsername()}"></h1>
-
+<br>
 <form method="GET" action="/people-month-salary/previous-month/worker">
-    <button type="submit" class="button">Показать за предыдущий месяц</button>
+    <button type="submit" class="button_select">Показать за предыдущий месяц</button>
     <input id = "user" name="user" type="hidden" th:value="${currentPerson.getUsername()}">
 </form>
-
+<br>
 
 <table>
     <thead>
